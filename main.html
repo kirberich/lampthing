@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<title>LampThing</title>
+
+		<style type="text/css">
+		</style>
+
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				$("a").click(function(e){
+					e.preventDefault();
+					$.get($(this).attr("href"));
+					return false;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Living Room</h1>
+		<a href="/set/?command=01&lamp=00">On One</a> | <a href="/set/?command=00&lamp=00">Off One</a> <br/>
+		<a href="/set/?command=01&lamp=01">On Two</a> | <a href="/set/?command=00&lamp=01">Off Two</a> <br/>
+		<a href="/set/?command=01&lamp=02">On Three</a> | <a href="/set/?command=00&lamp=02">Off Three</a> <br/>
+		<a href="/set/?command=01&lamp=03">On All</a> | <a href="/set/?command=00&lamp=03">Off All</a> <br/>
+
+		<h1>Room 1</h1>
+		<a href="/set/?command=01&lamp=04">On One</a> | <a href="/set/?command=00&lamp=04">Off One</a> <br/>
+		<a href="/set/?command=01&lamp=05">On Two</a> | <a href="/set/?command=00&lamp=05">Off Two</a> <br/>
+		<a href="/set/?command=01&lamp=07">On All</a> | <a href="/set/?command=00&lamp=07">Off All</a> <br/>
+	</body>
+</html>
