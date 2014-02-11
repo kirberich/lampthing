@@ -11,7 +11,8 @@ def send_command(ser, command, wait_for_reply=True, wait_for_empty_buffer=False)
 
     retval = []
     ser.write(command+"\n")
-    retval.append(ser.readline().strip())
+    if wait_for_reply:
+        retval.append(ser.readline().strip())
 
     if wait_for_empty_buffer:
         while ser.inWaiting():
@@ -32,8 +33,7 @@ if __name__ == '__main__':
         # api events
         for event, kwargs in api.events:
             if event == "set":
-                print send_command(ser, kwargs['command'][0] + " " + kwargs["lamp"][0])
+                print send_command(ser, kwargs['command'][0] + " " + kwargs["lamp"][0], wait_for_reply=False)
         api.events = []
 
         time.sleep(0.01)
-        
