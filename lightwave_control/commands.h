@@ -25,23 +25,23 @@ byte ids[] = {
   0x6F, 0xEE, 0xEE, 0xEE, 0xF6, 0x7E   // Mood remote
 };
 
-byte dimLevels[] = {
-  1111 0110,
-  1110 1110,
-  1110 1101,
-  1110 1011,
-  1101 1110,
-  1101 1101,
-  1101 1011,
-  1011 1110,
-  1011 1101,
-  1011 1011,
-  1011 0111,
-  0111 1110,
-  0111 1101,
-  0111 1011,
-  0111 0111,
-  0110 1111
+static byte nibbles[] = {
+  0xF6,
+  0xEE,
+  0xED,
+  0xEB,
+  0xDE,
+  0xDD,
+  0xDB,
+  0xBE,
+  0xBD,
+  0xBB,
+  0xB7,
+  0x7E,
+  0x7D,
+  0x7B,
+  0x77,
+  0x6F
 };
 
 // CONSTANTS
@@ -54,15 +54,17 @@ byte MOOD1 = 5;
 byte MOOD2 = 6;
 byte MOOD3 = 7;
 
+// To overwrite underlying library variables
+extern int repeat_delay;
+
 void makeCommand(byte type, byte lamp, byte remote_num, byte* command) {
   byte brightnessLevel = 0;
   if (type >= 32) {
-    brightnessLevel = type - 32;
-    type -= 32;
-    // Set type (level1, 2 and command bytes)
-    command[0] = 0xBD;
-    command[1] = dimLevels[brightnessLevel];
-    command[3] = commands[1];
+    // Dimming
+    brightnessLevel = 0x80 + (type - 31);
+    command[0] = nibbles[brightnessLevel >> 4];
+    command[1] = nibbles[brightnessLevel & 0xF];
+    command[3] = commands[1]; // Send 'on' for dimming
   } else {
     // Set type (level1, 2 and command bytes)
     command[0] = levels1[type];
@@ -85,4 +87,12 @@ void parseInput(String inputString, byte* commandType, byte* lamp) {
 
   *commandType = (byte)atoi(commandTypeBuffer);
   *lamp = (byte)atoi(lampBuffer);
+}
+
+void set_delays(byte type) {
+  if(type == BRIGHT_DOWN || type == BRIGHT_UP) {
+    repeat_delay = 100;
+  } else {
+    repeat_delay = 10250; // Default value
+  }
 }

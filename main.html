@@ -11,11 +11,27 @@
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 		<script type="text/javascript">
+			var touch_timer;
 			$(function() {
 				$("a").click(function(e){
 					e.preventDefault();
 					$.get($(this).attr("href"));
 					return false;
+				});
+				$(".dim").mousedown(function(e){
+					var $target = $(this);
+					var lamp = $target.data("lamp");
+					touch_timer = setInterval(function() {
+						$.get($target.attr("href"));
+					}, 100);
+				});
+				$(".dim").mouseup(function(e){
+					clearInterval(touch_timer);
+				});
+				$(".set").change(function(e){
+					var value = Math.max(32, Math.min(62, 32 + parseInt($(this).val())));
+					console.log(value);
+					$.get("/set/?command="+value+"&lamp="+$(this).data("lamp"));
 				});
 			});
 		</script>
@@ -29,7 +45,11 @@
 
 		<h1>Room 1</h1>
 		<a href="/set/?command=01&lamp=04">On One</a> | <a href="/set/?command=00&lamp=04">Off One</a> <br/>
+		<a class="dim" data-lamp="04" href="/set/?command=03&lamp=04">Down One</a> | <a class="dim" data-lamp="04" href="/set/?command=04&lamp=04">Up One</a> <br/>
 		<a href="/set/?command=01&lamp=05">On Two</a> | <a href="/set/?command=00&lamp=05">Off Two</a> <br/>
+		<a class="dim" data-lamp="05" href="/set/?command=03&lamp=05">Down Two</a> | <a class="dim" data-lamp="05" href="/set/?command=04&lamp=05">Up Two</a> <br/>
 		<a href="/set/?command=01&lamp=07">On All</a> | <a href="/set/?command=00&lamp=07">Off All</a> <br/>
+		<a class="dim" data-lamp="07" href="/set/?command=03&lamp=07">Down All</a> | <a class="dim" data-lamp="07" href="/set/?command=04&lamp=07">Up All</a> <br/>
+		all: <input data-lamp="07" class="set" type="number" min="0" max="30">
 	</body>
 </html>
