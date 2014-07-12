@@ -31,25 +31,27 @@
 				$(".set").change(function(e){
 					var value = Math.max(32, Math.min(62, 32 + parseInt($(this).val())));
 					console.log(value);
-					$.get("/set/?command="+value+"&lamp="+$(this).data("lamp"));
+					$.get("/set/?command="+value+"&lamp="+$(this).data("lamp")+"&remote="+$(this).data("remote"));
 				});
 			});
 		</script>
 	</head>
 	<body>
 		<h1>Living Room</h1>
-		<a href="/set/?command=01&lamp=00">On One</a> | <a href="/set/?command=00&lamp=00">Off One</a> <br/>
-		<a href="/set/?command=01&lamp=01">On Two</a> | <a href="/set/?command=00&lamp=01">Off Two</a> <br/>
-		<a href="/set/?command=01&lamp=02">On Three</a> | <a href="/set/?command=00&lamp=02">Off Three</a> <br/>
-		<a href="/set/?command=01&lamp=03">On All</a> | <a href="/set/?command=00&lamp=03">Off All</a> <br/>
+		<a href="/set/?command=01&lamp=00&remote=00">On One</a> | <a href="/set/?command=00&lamp=00&remote=00">Off One</a> <br/>
+		<a href="/set/?command=01&lamp=01&remote=00">On Two</a> | <a href="/set/?command=00&lamp=01&remote=00">Off Two</a> <br/>
+		<a href="/set/?command=01&lamp=02&remote=00">On Three</a> | <a href="/set/?command=00&lamp=02&remote=00">Off Three</a> <br/>
+		<a href="/set/?command=01&lamp=03&remote=00">On All</a> | <a href="/set/?command=00&lamp=03&remote=00">Off All</a> <br/>
 
 		<h1>Room 1</h1>
-		<a href="/set/?command=01&lamp=04">On One</a> | <a href="/set/?command=00&lamp=04">Off One</a> <br/>
-		<a class="dim" data-lamp="04" href="/set/?command=03&lamp=04">Down One</a> | <a class="dim" data-lamp="04" href="/set/?command=04&lamp=04">Up One</a> <br/>
-		<a href="/set/?command=01&lamp=05">On Two</a> | <a href="/set/?command=00&lamp=05">Off Two</a> <br/>
-		<a class="dim" data-lamp="05" href="/set/?command=03&lamp=05">Down Two</a> | <a class="dim" data-lamp="05" href="/set/?command=04&lamp=05">Up Two</a> <br/>
-		<a href="/set/?command=01&lamp=07">On All</a> | <a href="/set/?command=00&lamp=07">Off All</a> <br/>
-		<a class="dim" data-lamp="07" href="/set/?command=03&lamp=07">Down All</a> | <a class="dim" data-lamp="07" href="/set/?command=04&lamp=07">Up All</a> <br/>
+		<a href="/set/?command=01&lamp=04&remote=01">On Window</a> | <a href="/set/?command=00&lamp=04&remote=01">Off "Window"</a> <br/>
+		<a class="dim" data-lamp="04" data-remote="01" href="/set/?command=03&lamp=04&remote=01">Down Window</a> | <a class="dim" data-lamp="04" data-remote="01" href="/set/?command=04&lamp=04&remote=01">Up Window</a> <br/>
+		<a href="/set/?command=01&lamp=05&remote=01">On Storm</a> | <a href="/set/?command=00&lamp=05&remote=01">Off Storm</a> <br/>
+		<a class="dim" data-lamp="05" data-remote="01" href="/set/?command=03&lamp=05&remote=01">Down Storm</a> | <a class="dim" data-lamp="05" data-remote="01" href="/set/?command=04&lamp=05&remote=01">Up Storm</a> <br/>
+		<a href="/set/?command=01&lamp=06&remote=01">On Ceiling</a> | <a href="/set/?command=00&lamp=06&remote=01">Off Ceiling</a> <br/>
+		<a class="dim" data-lamp="06" data-remote="01" href="/set/?command=03&lamp=06&remote=01">Down Ceiling</a> | <a class="dim" data-lamp="06" data-remote="01" href="/set/?command=04&lamp=06&remote=01">Up Ceiling</a> <br/>
+		<a href="/set/?command=01&lamp=07&remote=01">On All</a> | <a href="/set/?command=00&lamp=07&remote=01">Off All</a> <br/>
+		<a class="dim" data-lamp="07" data-remote="01" href="/set/?command=03&lamp=07&remote=01">Down All</a> | <a class="dim" data-lamp="07" data-remote="01" href="/set/?command=04&lamp=07&remote=01">Up All</a> <br/>
 		all: <input data-lamp="07" class="set" type="number" min="0" max="30">
 	</body>
 </html>
