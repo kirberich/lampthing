@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     ser = serial.Serial(args.dev, 9600, timeout=1)
     api = Api()
-    api.demonize()
+    api.demonize(port=8082)
 
     while True:
         # api events
