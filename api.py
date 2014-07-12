@@ -32,7 +32,8 @@ class BotHandler(http.Request, object):
             elif path[0] == "set":
                 command = self.args['command']
                 lamp = self.args['lamp']
-                self.api.trigger("set", command=command, lamp=lamp)
+                remote = self.args['remote']
+                self.api.trigger("set", command=command, lamp=lamp, remote=remote)
                 return self.simple_render("set.")
         except Exception, e:
             return self.simple_render(e.message)
