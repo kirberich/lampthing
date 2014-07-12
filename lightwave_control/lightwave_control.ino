@@ -16,15 +16,6 @@ byte repeatSend = 12;
 byte repeatCounter = 0;
 byte ledPin = 13;
 
-void flashLed() {
-  for(int i=0; i<5; i++) {
-    digitalWrite(13, HIGH);
-    delay(5);
-    digitalWrite(13, LOW);
-    delay(5);
-  }
-}
-
 void setup() {
   Serial.begin(9600);
   pinMode(13, OUTPUT);
