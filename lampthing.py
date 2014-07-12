@@ -20,6 +20,12 @@ def send_command(ser, command, wait_for_reply=True, wait_for_empty_buffer=False)
 
     return retval
 
+def make_message(command, lamp, remote):
+    command = int(command[0])
+    lamp = int(lamp[0])
+    remote = int(remote[0])
+    return "c%02d %02d %02d" % (command, lamp, remote)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Control Lightwave devices via an arduino.')
     parser.add_argument('dev', type=str, help='serial device the arduino is connected to')
@@ -33,7 +39,9 @@ if __name__ == '__main__':
         # api events
         for event, kwargs in api.events:
             if event == "set":
-                print send_command(ser, kwargs['command'][0] + " " + kwargs["lamp"][0], wait_for_reply=False)
+                print send_command(ser, make_message(**kwargs), wait_for_reply=False, wait_for_empty_buffer=False)
+        while ser.inWaiting():
+            print ser.readline().strip()
         api.events = []
 
         time.sleep(0.01)
