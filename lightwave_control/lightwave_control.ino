@@ -1,8 +1,8 @@
 #include <LightwaveRF.h>
 #include "commands.h"
 
-char commandString[6] = "";
-char inputString[6] = "";
+char commandString[8] = "";
+char inputString[8] = "";
 byte inputStringPos = 0;
 
 boolean processCommand = false; 
@@ -10,6 +10,7 @@ boolean newCommand = false;
 byte msg[10];
 byte len = 10;
 byte lamp;
+byte remote;
 byte commandType;
 byte repeatSend = 12;
 byte repeatCounter = 0;
@@ -35,18 +36,10 @@ void loop() {
 //  lw_get_message(msg,&len);
 //  printMsg(msg, len);
 
-  if (newCommand) {
-    repeatCounter = 0;
-    parseInput(commandString, &commandType, &lamp);
-    makeCommand(commandType, lamp, 1, msg);
-    newCommand = false;
-    processCommand = true;
-  }
-
   if (processCommand) {
     set_delays(commandType);
+    makeCommand(commandType, lamp, remote, msg);
     lw_send(msg);
-    
     repeatCounter++;
     if (repeatCounter >= repeatSend || commandType == BRIGHT_DOWN || commandType == BRIGHT_UP) {
       repeatCounter = 0;
@@ -54,24 +47,20 @@ void loop() {
     }
   }
   
-  processSerial();
+  process_serial();
 }
 
-void processSerial() {
-  while (Serial.available()) { 
-    char inChar = (char)Serial.read(); 
-    
-    if (inChar == '\n') {
-      memcpy(commandString, inputString, 6);
-      
-      inputStringPos = 0;
-      newCommand = true;
-      processCommand = false;
-      flashLed();
-      return;
-    } 
-    inputString[inputStringPos] = inChar;
-    inputStringPos++;
+void process_serial() {
+  if (Serial.available()) {
+    // 'c' starts a command, in the form of 'c00 00 00'
+    if (Serial.read() == 'c') {
+      commandType = Serial.parseInt();
+      lamp = Serial.parseInt();
+      remote = Serial.parseInt();
+      repeatCounter = 0;
+      processCommand = true;
+      Serial.println("set");
+    }
   }
 }
 

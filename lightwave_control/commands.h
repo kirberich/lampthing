@@ -79,16 +79,6 @@ void makeCommand(byte type, byte lamp, byte remote_num, byte* command) {
   memcpy(&command[4], &ids[remote_num*6], 6);
 }
 
-void parseInput(String inputString, byte* commandType, byte* lamp) {
-  // Input is expected in the form of CC LL, with a byte for the command (see CONSTANTS) and a byte for the lamp
-
-  char commandTypeBuffer[3] = {inputString[0], inputString[1], 0};
-  char lampBuffer[3] = {inputString[3], inputString[4], 0};
-
-  *commandType = (byte)atoi(commandTypeBuffer);
-  *lamp = (byte)atoi(lampBuffer);
-}
-
 void set_delays(byte type) {
   if(type == BRIGHT_DOWN || type == BRIGHT_UP) {
     repeat_delay = 100;
