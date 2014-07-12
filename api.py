@@ -1,3 +1,5 @@
+import json
+
 from twisted.web import http
 from twisted.web.http import HTTPChannel
 from twisted.internet import reactor
@@ -23,16 +25,16 @@ class BotHandler(http.Request, object):
 
     def process(self):
         path = [x for x in self.path.split("/") if x]
-
         try:
             if not path:
                 f = open("main.html")
                 content = f.read()
                 return self.simple_render(content, content_type="text/html")
-            elif path[0] == "set":
-                command = self.args['command']
-                lamp = self.args['lamp']
-                remote = self.args['remote']
+            elif path[0] == "set" and self.method == 'POST':
+                args = json.loads(self.content.read())
+                command = args['command']
+                lamp = args['lamp']
+                remote = args['remote']
                 self.api.trigger("set", command=command, lamp=lamp, remote=remote)
                 return self.simple_render("set.")
         except Exception, e:

@@ -15,14 +15,14 @@
 			$(function() {
 				$("a").click(function(e){
 					e.preventDefault();
-					$.get($(this).attr("href"));
+					$.post($(this).attr("href"));
 					return false;
 				});
 				$(".dim").mousedown(function(e){
 					var $target = $(this);
 					var lamp = $target.data("lamp");
 					touch_timer = setInterval(function() {
-						$.get($target.attr("href"));
+						$.post($target.attr("href"));
 					}, 100);
 				});
 				$(".dim").mouseup(function(e){
@@ -31,7 +31,7 @@
 				$(".set").change(function(e){
 					var value = Math.max(32, Math.min(62, 32 + parseInt($(this).val())));
 					console.log(value);
-					$.get("/set/?command="+value+"&lamp="+$(this).data("lamp")+"&remote="+$(this).data("remote"));
+					$.post("/set/?command="+value+"&lamp="+$(this).data("lamp")+"&remote="+$(this).data("remote"));
 				});
 			});
 		</script>
